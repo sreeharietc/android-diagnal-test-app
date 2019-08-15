@@ -1,5 +1,9 @@
 package com.news.diagnaltestapp.data;
 
+import android.arch.lifecycle.LiveData;
+
+import com.news.diagnaltestapp.data.model.PageContent;
+
 /**
  * Created by sreehari
  * on 15/8/19.
@@ -17,5 +21,9 @@ public class MoviesRepository {
             sInstance = new MoviesRepository(moviesDataSource);
         }
         return sInstance;
+    }
+
+    public LiveData<PageContent> getMoviesData() {
+        return moviesDataSource.getMoviesData();
     }
 }
