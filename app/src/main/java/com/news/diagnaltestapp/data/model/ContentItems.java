@@ -6,10 +6,10 @@ import java.util.List;
  * Created by sreehari
  * on 15/8/19.
  */
-class ContentItems {
+public class ContentItems {
     private List<Content> content;
 
-    private List<Content> getContent() {
+    public List<Content> getContent() {
         return content;
     }
 }

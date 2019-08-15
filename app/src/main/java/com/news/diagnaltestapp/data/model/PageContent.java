@@ -5,7 +5,7 @@ package com.news.diagnaltestapp.data.model;
  * on 15/8/19.
  */
 public class PageContent {
-    Page page;
+    private Page page;
 
     public Page getPage() {
         return page;

@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by sreehari
  * on 15/8/19.
  */
-class Page {
+public class Page {
     private String title;
 
     @SerializedName("total-content-items")

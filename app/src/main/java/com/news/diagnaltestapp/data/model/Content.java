@@ -6,7 +6,7 @@ import com.google.gson.annotations.SerializedName;
  * Created by sreehari
  * on 15/8/19.
  */
-class Content {
+public class Content {
     private String name;
 
     @SerializedName("poster-image")
