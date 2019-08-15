@@ -1,13 +1,8 @@
 package com.news.diagnaltestapp.ui.list;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +12,7 @@ import android.widget.TextView;
 import com.news.diagnaltestapp.R;
 import com.news.diagnaltestapp.data.model.Content;
 import com.news.diagnaltestapp.data.model.PageContent;
-
-
-import java.io.IOException;
-import java.io.InputStream;
+import com.news.diagnaltestapp.utilities.ViewUtil;
 import java.util.List;
 
 /**
@@ -40,30 +32,13 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
     @Override
     public MoviesViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_movies_list_item, viewGroup, false);
-        ImageView imageView = view.findViewById(R.id.moviePoster);
-        ConstraintLayout.LayoutParams layoutParams = (ConstraintLayout.LayoutParams) imageView.getLayoutParams();
-        int margin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 5, context.getResources().getDisplayMetrics());
-        layoutParams.width = (viewGroup.getWidth()-(margin*6))/3;
-        layoutParams.height = (int) (layoutParams.width*1.5);
-        layoutParams.leftMargin = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 10, context.getResources().getDisplayMetrics());
-        layoutParams.setMargins(margin, 0, margin, 0);
-        imageView.setLayoutParams(layoutParams);
+        ViewUtil.setMovieListItemLayoutParam(view, viewGroup, context.getResources().getDisplayMetrics());
         return new MoviesViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MoviesViewHolder moviesViewHolder, int i) {
-        InputStream is = null;
-        try {
-            is = context.getAssets().open(movieList.get(i).getPosterImage());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        Bitmap bitmap = BitmapFactory.decodeStream(is);
-        Drawable d = Drawable.createFromStream(is, null);
-        String imageFilePath = "file:///android_asset/images/"+movieList.get(i).getName();
-//        Picasso.get().load(imageFilePath).into(moviesViewHolder.moviePoster);
-        moviesViewHolder.moviePoster.setImageBitmap(bitmap);
+        ViewUtil.setPosterImage(context.getAssets(), movieList.get(i).getPosterImage(), moviesViewHolder.moviePoster);
         moviesViewHolder.movieTitle.setText(movieList.get(i).getName());
     }
 
