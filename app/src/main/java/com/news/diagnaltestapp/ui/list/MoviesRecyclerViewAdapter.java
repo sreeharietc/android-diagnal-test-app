@@ -15,6 +15,8 @@ import com.news.diagnaltestapp.data.model.Content;
 import com.news.diagnaltestapp.data.model.PageContent;
 import com.news.diagnaltestapp.utilities.Constants;
 import com.news.diagnaltestapp.utilities.ViewUtil;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -25,6 +27,7 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
 
     private Context context;
     private List<Content> movieList;
+    private List<Content> moviesList = new ArrayList<>();
 
     MoviesRecyclerViewAdapter(Context context) {
         this.context = context;
@@ -44,8 +47,7 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
         moviesViewHolder.movieTitle.setText(movieList.get(i).getName());
     }
 
-    void updateMovies(PageContent movies) {
-        List<Content> moviesItems = movies.getPage().getContentItems().getContent();
+    void updateMovies(List<Content> moviesItems) {
         if(movieList == null || movieList.isEmpty()) {
             this.movieList = moviesItems;
             notifyDataSetChanged();
@@ -56,6 +58,11 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
         }
     }
 
+    void updateSearchResult(List<Content> movies) {
+        this.movieList = movies;
+        notifyDataSetChanged();
+    }
+
     private void add(Content movie) {
         movieList.add(movie);
         notifyItemInserted(movieList.size()- Constants.NUMBER_ONE);
@@ -64,6 +71,16 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
     @Override
     public int getItemCount() {
         return movieList != null ? movieList.size() : Constants.NUMBER_ZERO;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
     }
 
     class MoviesViewHolder extends RecyclerView.ViewHolder {
