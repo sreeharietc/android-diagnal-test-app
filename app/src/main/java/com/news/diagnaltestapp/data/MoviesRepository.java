@@ -23,7 +23,7 @@ public class MoviesRepository {
         return sInstance;
     }
 
-    public LiveData<PageContent> getMoviesData() {
-        return moviesDataSource.getMoviesData();
+    public LiveData<PageContent> getMoviesData(int pageNumber) {
+        return moviesDataSource.getMoviesData(pageNumber);
     }
 }

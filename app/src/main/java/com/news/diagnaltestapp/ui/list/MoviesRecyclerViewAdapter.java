@@ -7,11 +7,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.news.diagnaltestapp.R;
 import com.news.diagnaltestapp.data.model.Content;
 import com.news.diagnaltestapp.data.model.PageContent;
+import com.news.diagnaltestapp.utilities.Constants;
 import com.news.diagnaltestapp.utilities.ViewUtil;
 import java.util.List;
 
@@ -24,13 +26,13 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
     private Context context;
     private List<Content> movieList;
 
-    public MoviesRecyclerViewAdapter(Context context) {
+    MoviesRecyclerViewAdapter(Context context) {
         this.context = context;
     }
 
     @NonNull
     @Override
-    public MoviesViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
+    public MoviesViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.layout_movies_list_item, viewGroup, false);
         ViewUtil.setMovieListItemLayoutParam(view, viewGroup, context.getResources().getDisplayMetrics());
         return new MoviesViewHolder(view);
@@ -43,26 +45,36 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
     }
 
     void updateMovies(PageContent movies) {
-        this.movieList = movies.getPage().getContentItems().getContent();
-        notifyDataSetChanged();
+        List<Content> moviesItems = movies.getPage().getContentItems().getContent();
+        if(movieList == null || movieList.isEmpty()) {
+            this.movieList = moviesItems;
+            notifyDataSetChanged();
+        } else {
+            for(Content movie: moviesItems) {
+                add(movie);
+            }
+        }
+    }
+
+    private void add(Content movie) {
+        movieList.add(movie);
+        notifyItemInserted(movieList.size()- Constants.NUMBER_ONE);
     }
 
     @Override
     public int getItemCount() {
-        if(movieList != null) {
-            return movieList.size();
-        } else {
-            return 0;
-        }
+        return movieList != null ? movieList.size() : Constants.NUMBER_ZERO;
     }
 
     class MoviesViewHolder extends RecyclerView.ViewHolder {
         ImageView moviePoster;
         TextView movieTitle;
+        ProgressBar progressLoader;
         MoviesViewHolder(@NonNull View itemView) {
             super(itemView);
             moviePoster = itemView.findViewById(R.id.moviePoster);
             movieTitle = itemView.findViewById(R.id.movieTitle);
+            progressLoader = itemView.findViewById(R.id.progress_circular);
         }
     }
 }

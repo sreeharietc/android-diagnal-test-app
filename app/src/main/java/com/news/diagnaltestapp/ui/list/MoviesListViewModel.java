@@ -5,6 +5,7 @@ import android.arch.lifecycle.ViewModel;
 
 import com.news.diagnaltestapp.data.MoviesRepository;
 import com.news.diagnaltestapp.data.model.PageContent;
+import com.news.diagnaltestapp.utilities.Constants;
 
 /**
  * Created by sreehari
@@ -20,7 +21,11 @@ class MoviesListViewModel extends ViewModel {
     }
 
     private void fetchMoviesFromRepository() {
-        moviesData = moviesRepository.getMoviesData();
+        moviesData = moviesRepository.getMoviesData(Constants.NUMBER_ONE);
+    }
+
+    void fetchMoviesFromRepositoryNextPage(int pageNumber) {
+        moviesData = moviesRepository.getMoviesData(pageNumber);
     }
 
     LiveData<PageContent> getMoviesData() {
