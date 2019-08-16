@@ -12,7 +12,6 @@ import android.widget.TextView;
 
 import com.news.diagnaltestapp.R;
 import com.news.diagnaltestapp.data.model.Content;
-import com.news.diagnaltestapp.data.model.PageContent;
 import com.news.diagnaltestapp.utilities.Constants;
 import com.news.diagnaltestapp.utilities.ViewUtil;
 
@@ -26,8 +25,7 @@ import java.util.List;
 public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecyclerViewAdapter.MoviesViewHolder> {
 
     private Context context;
-    private List<Content> movieList;
-    private List<Content> moviesList = new ArrayList<>();
+    private List<Content> movieList = new ArrayList<>();
 
     MoviesRecyclerViewAdapter(Context context) {
         this.context = context;
@@ -48,18 +46,14 @@ public class MoviesRecyclerViewAdapter extends RecyclerView.Adapter<MoviesRecycl
     }
 
     void updateMovies(List<Content> moviesItems) {
-        if(movieList == null || movieList.isEmpty()) {
-            this.movieList = moviesItems;
-            notifyDataSetChanged();
-        } else {
-            for(Content movie: moviesItems) {
-                add(movie);
-            }
+        for(Content movie: moviesItems) {
+            add(movie);
         }
     }
 
     void updateSearchResult(List<Content> movies) {
-        this.movieList = movies;
+        movieList.clear();
+        movieList.addAll(movies);
         notifyDataSetChanged();
     }
 

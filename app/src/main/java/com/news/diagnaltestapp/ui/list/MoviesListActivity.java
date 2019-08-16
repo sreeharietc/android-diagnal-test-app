@@ -58,25 +58,28 @@ public class MoviesListActivity extends AppCompatActivity {
         toolbarContainer = findViewById(R.id.toolbarContainer);
         closeButton = searchView.findViewById(R.id.search_close_btn);
 
+        setUpToolbar();
+        setUpSearchView();
+        setMoviesRecyclerView();
+        setUpViewModel();
+    }
+
+    private void setUpToolbar() {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        setUpSearchView();
         toolbar.setNavigationIcon(getResources().getDrawable(R.drawable.ic_back));
-        /*toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
-        });*/
+        });
 
         toolbar.setTitleTextColor(Color.WHITE);
-        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             ActionBar actionBar = getSupportActionBar();
-            actionBar.setTitle("romcom");
+            actionBar.setTitle(getString(R.string.romcom));
         }
-        setMoviesRecyclerView();
-        setUpViewModel();
     }
 
     private void setUpSearchView() {
@@ -89,7 +92,6 @@ public class MoviesListActivity extends AppCompatActivity {
                 toolbarContainer.setVisibility(View.INVISIBLE);
                 searchView.setVisibility(View.VISIBLE);
                 searchView.onActionViewExpanded();
-                searchView.setQuery("", false);
                 searchView.requestFocus();
                 closeButton.setVisibility(View.VISIBLE);
             }
@@ -103,7 +105,7 @@ public class MoviesListActivity extends AppCompatActivity {
         closeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                searchView.setQuery("", false);
+                searchView.setQuery(Constants.EMPTY_STRING, false);
                 searchView.onActionViewCollapsed();
                 searchView.setVisibility(View.INVISIBLE);
                 toolbarContainer.setVisibility(View.VISIBLE);
