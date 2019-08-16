@@ -43,6 +43,10 @@ public class ViewUtil {
             e.printStackTrace();
         }
         Bitmap bitmap = BitmapFactory.decodeStream(is);
-        moviePosterImageView.setImageBitmap(bitmap);
+        if(bitmap != null) {
+            moviePosterImageView.setImageBitmap(bitmap);
+        } else {
+            moviePosterImageView.setImageResource(R.drawable.posterthatismissing);
+        }
     }
 }
