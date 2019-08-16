@@ -166,7 +166,7 @@ public class MoviesListActivity extends AppCompatActivity {
 
     private void setMoviesRecyclerView() {
         moviesRecyclerView = findViewById(R.id.recyclerView);
-        final GridLayoutManager layoutManager = new GridLayoutManager(this, Constants.NUMBER_THREE);
+        final GridLayoutManager layoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.grid_col_count));
         moviesRecyclerView.setLayoutManager(layoutManager);
         moviesRecyclerViewAdapter = new MoviesRecyclerViewAdapter(this);
         moviesRecyclerView.setAdapter(moviesRecyclerViewAdapter);
