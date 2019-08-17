@@ -28,7 +28,7 @@ class MoviesListViewModel extends ViewModel {
         fetchMoviesFromRepository();
     }
 
-    public List<Content> getTotalMoviesList() {
+    List<Content> getTotalMoviesList() {
         return totalMoviesList;
     }
 

@@ -4,6 +4,7 @@ import android.app.SearchManager;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,13 +16,9 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.news.diagnaltestapp.R;
 import com.news.diagnaltestapp.data.model.Content;
@@ -29,16 +26,17 @@ import com.news.diagnaltestapp.data.model.PageContent;
 import com.news.diagnaltestapp.utilities.Constants;
 import com.news.diagnaltestapp.utilities.InjectorUtil;
 
-import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Objects;
 
 public class MoviesListActivity extends AppCompatActivity {
     private static final int TOTAL_PAGE = 3;
+    private String searchString;
     private MoviesListViewModel moviesListViewModel;
     private RecyclerView moviesRecyclerView;
     private MoviesRecyclerViewAdapter moviesRecyclerViewAdapter;
     private RecyclerView.OnScrollListener onScrollListener;
+    private Observer moviesDataObserver;
     private boolean isLoading;
     private int currentPage = 1;
     private boolean isLastPage;
@@ -116,17 +114,22 @@ public class MoviesListActivity extends AppCompatActivity {
 
     private void setSearchViewTextChangeListener() {
         SearchView.OnQueryTextListener searchListener = new SearchView.OnQueryTextListener() {
+
             @Override
             public boolean onQueryTextSubmit(String s) {
                 return false;
             }
 
             @Override
-            public boolean onQueryTextChange(String s) {
-                if(s.length() >=3 ) {
-                    moviesListViewModel.searchMoviesList(s);
+            public boolean onQueryTextChange(String searchKey) {
+                if(searchKey.length() >= Constants.NUMBER_THREE ) {
+                    searchString = searchKey;
+                    moviesListViewModel.searchMoviesList(searchString);
                 } else {
-                    moviesRecyclerViewAdapter.updateSearchResult(moviesListViewModel.getTotalMoviesList());
+                    //To counter Searchview internally hiding close button when query text is empty
+                    closeButton.setVisibility(View.VISIBLE);
+
+                    moviesRecyclerViewAdapter.updateSearchResult(moviesListViewModel.getTotalMoviesList(), Constants.EMPTY_STRING);
                 }
                 return true;
             }
@@ -148,7 +151,7 @@ public class MoviesListActivity extends AppCompatActivity {
         moviesListViewModel.getSearchedMoviesData().observe(this, new Observer<List<Content>>() {
             @Override
             public void onChanged(@Nullable List<Content> contents) {
-                moviesRecyclerViewAdapter.updateSearchResult(contents);
+                moviesRecyclerViewAdapter.updateSearchResult(contents, searchString);
             }
         });
     }
